@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const db = require('./config/connection');
-const routes = require('./routes');
+// const routes = require('./routes');
 const { ApolloServer } = require('apollo-server-express');
 const { typeDefs, resolvers } = require('./schemas');
 const { authMiddleware } = require('./utils/auth');
@@ -24,23 +24,31 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
 }
 
-app.use(routes);
+// app.use(routes);
 
-db.once('open', () => {
-  app.listen(PORT, () =>
-   console.log(`🌍 Now listening on localhost:${PORT}`));
-});
-
-startApolloServer();
+const startApolloServer = async (typeDefs, resolvers) => {
+  await server.start();
+  server.applyMiddleware({ app });
+  
+  db.once('open', () => {
+    app.listen(PORT, () => {
+      console.log(`API server running on port ${PORT}!`);
+      console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`);
+    })
+  })
+};
+  
+// Call the async function to start the server
+  startApolloServer();
 
 // npm i and add .gitignore for node_modules
 // install any additional dependencies (apollo, graphQL)
 // check your connection.js 
-// use Apollo in server.js
+// update server.js
 
 // add typeDefs and Resolvers in schema folder on server
 // setup apollo in App.js
 // define mutations and queries on client side
 // update components and pages with graphql/apollo
 // deploy to heroku
-// update auth files in server and client as needed
+// update auth files in server and client as need

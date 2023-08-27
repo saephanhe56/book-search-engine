@@ -1,38 +1,31 @@
 const { User } = require('../models');
-const { signToken } = require('../utils');
-
+const {signToken} = require('../utils/auth');
 const resolvers = {
   Query: {
-    me: async (parent, args, context) => {
+    me: async () => {
+
     },
-    
 
   },
   Mutation: {
-    login: async (parent, args) => {
-      
+    // login: async (parent, args) => {
 
-    },
+    // },
+    addUser: async (parent, args) => {
+      console.log("args:", args);
 
-    addUser: async (parent, {_id, techNum}) => {
       const user = await User.create(args);
-      if (!user) {
-        return
-      }
-      const token = signToken(user);
-      return ({ token, user });
+      console.log("user:", user);
+ token = signToken(user);
+      console.log("token:", token);
+      return { token, user };
     },
-
-    saveBook: async (parent,{_id, techNum}) => {
+    // saveBook: async (parent,{_id,}) => {
       
+    // },
+    // removeBook: async (parent, {_id,}) => {
 
-    },
-
-    removeBook: async (parent, {_id, techNum}) => {
-      
-
-
-    },
+    // },
   },
 };
 
